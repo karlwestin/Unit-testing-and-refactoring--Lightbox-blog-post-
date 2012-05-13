@@ -3,7 +3,7 @@
  * Part of the "refactoring javascript for unit testing" blog post
  */
 
-function Lightbox(boxcontent) {
+function Lightbox(boxcontent, $parent) {
     var content = "<div class='js-overlay'></div>" +
                   "<div class='js-dialog'>" + 
                       "<a href='#' class='js-close'>Close</a>" + 
@@ -14,13 +14,18 @@ function Lightbox(boxcontent) {
         width, 
         height;
 
-    $("body").append(content);
+    $parent = $parent || $("body");
+
+    $parent.append(content);
 
     $(".js-overlay").bind("click", this.closeBox);
     $(".js-close").bind("click", this.closeBox);
 
     width = $(".js-content").width();
     height = $(".js-content").height();
+
+    console.log(width);
+
     $(".js-dialog").width(width)
                    .height(height)
                    .css("margin-left", -width/2)
