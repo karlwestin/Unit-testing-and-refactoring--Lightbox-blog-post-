@@ -17,14 +17,15 @@ function Lightbox(boxcontent, $parent) {
     $parent = $parent || $("body");
 
     $parent.append(content);
+    this.$closeBtn = $parent.find('.js-close');
+    this.$overlay  = $parent.find('.js-overlay');
+    this.$dialog   = $parent.find('.js-dialog');
 
-    $(".js-overlay").bind("click", this.closeBox);
-    $(".js-close").bind("click", this.closeBox);
+    this.$overlay.bind("click", this.close);
+    this.$closeBtn.bind("click", this.close);
 
     width = $(".js-content").width();
     height = $(".js-content").height();
-
-    console.log(width);
 
     $(".js-dialog").width(width)
                    .height(height)
@@ -36,8 +37,10 @@ function Lightbox(boxcontent, $parent) {
 
 Lightbox.prototype = {
 
-    closeBox: function(e) {
-        e.preventDefault();
+    close: function(e) {
+        if(e) {
+            e.preventDefault();
+        }
         $(".js-close").unbind("click");
         $(".js-overlay").unbind("click").fadeOut($(".js-overlay").remove.bind($(".js-overlay")));
         $(".js-dialog").remove();

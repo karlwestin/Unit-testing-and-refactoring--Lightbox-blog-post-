@@ -8,7 +8,7 @@ describe("Lightbox tests", function() {
 
         setFixtures(sandbox());
         this.$sandbox = $("#sandbox");
-        this.lightBox = new Lightbox(content, this.$sandbox);
+        this.lb = new Lightbox(content, this.$sandbox);
     });
 
     afterEach(function() {
@@ -16,9 +16,9 @@ describe("Lightbox tests", function() {
     });
 
     it("should create the necessary elements", function() {
-        expect(this.$sandbox).toContain(".js-overlay");
-        expect(this.$sandbox).toContain(".js-close");
-        expect(this.$sandbox).toContain(".js-dialog");
+        expect(this.$sandbox).toContain(this.lb.$overlay);
+        expect(this.$sandbox).toContain(this.lb.$closeBtn);
+        expect(this.$sandbox).toContain(this.lb.$dialog);
     });
     
     it("should contain the content", function() {
@@ -26,24 +26,24 @@ describe("Lightbox tests", function() {
     });
 
     it('should auto-resize the box', function() {
-        expect($(".js-dialog").width()).toEqual(100);
-        expect($(".js-dialog").height()).toEqual(110);
+        expect(this.lb.$dialog.width()).toEqual(100);
+        expect(this.lb.$dialog.height()).toEqual(110);
     });
 
     it("should remove the box when clicking 'close'", function() {
-       $(".js-close").click();
-       expect(this.$sandbox).not.toContain(".js-overlay");
+       this.lb.$closeBtn.click();
+       expect(this.$sandbox).not.toContain(this.lb.$overlay);
     });
     
     it("should remove the box when clicking the overlay", function() {
-       $(".js-overlay").click();
-       expect(this.$sandbox).not.toContain(".js-overlay");
+       this.lb.$overlay.click();
+       expect(this.$sandbox).not.toContain(this.lb.$overlay);
     });
 
     it("should remove the lightbox completely", function() {
-       $(".js-close").click();
-       expect(this.$sandbox).not.toContain(".js-overlay");
-       expect(this.$sandbox).not.toContain(".js-dialog");
+       this.lb.close();
+       expect(this.$sandbox).not.toContain(this.lb.$overlay);
+       expect(this.$sandbox).not.toContain(this.lb.$dialog);
     });
 
 });
