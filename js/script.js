@@ -4,38 +4,49 @@
  */
 
 function Lightbox(boxcontent, $parent) {
-    var content = "<div class='js-overlay'></div>" +
-                  "<div class='js-dialog'>" + 
-                      "<a href='#' class='js-close'>Close</a>" + 
-                      "<div class='js-content'>" + 
-                      boxcontent +
-                      "</div>" +
-                  "</div>",
-        width, 
-        height;
-
-    $parent = $parent || $("body");
-
-    $parent.append(content);
-    this.$closeBtn = $parent.find('.js-close');
-    this.$overlay  = $parent.find('.js-overlay');
-    this.$dialog   = $parent.find('.js-dialog');
-
-    this.$overlay.bind("click", this.close);
-    this.$closeBtn.bind("click", this.close);
-
-    width = $(".js-content").width();
-    height = $(".js-content").height();
-
-    $(".js-dialog").width(width)
-                   .height(height)
-                   .css("margin-left", -width/2)
-                   .css("margin-top", -height/2);
-
-    $(".js-overlay").hide().fadeIn();
+    this._addElements(boxcontent, $parent);
+    this._autoSize();
+    this._bindEvents();
 }
 
 Lightbox.prototype = {
+
+    _addElements: function(boxcontent, $parent) {
+        var content = "<div class='js-overlay'></div>" +
+                      "<div class='js-dialog'>" + 
+                          "<a href='#' class='js-close'>Close</a>" + 
+                          "<div class='js-content'>" + 
+                          boxcontent +
+                          "</div>" +
+                      "</div>",
+            width, 
+            height;
+
+        $parent = $parent || $("body");
+        $parent.append(content);
+
+        this.$closeBtn = $parent.find('.js-close');
+        this.$overlay  = $parent.find('.js-overlay');
+        this.$dialog   = $parent.find('.js-dialog');
+
+        this.$overlay.hide().fadeIn();
+    },
+
+    _autoSize: function() {
+        var $content = this.$dialog.find(".js-content"),
+            width =  $content.width(),
+            height = $content.height();
+
+        this.$dialog.width(width)
+                    .height(height)
+                    .css("margin-left", -width/2)
+                    .css("margin-top", -height/2);
+    },
+
+    _bindEvents: function() {
+        this.$overlay.bind("click", this.close);
+        this.$closeBtn.bind("click", this.close);
+    },
 
     close: function(e) {
         if(e) {
